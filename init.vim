@@ -120,22 +120,6 @@ nnoremap <Leader>lp :lp<CR>
 nnoremap <Leader>lw :lw 10<CR>
 nnoremap <Leader>lx :lclose<CR>
 
-" vimgrep
-"nmap <Leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>;lw<cr>
-
-" Creating your own ag.vim(link)
-"function! MySearch()
-"    let grep_term = input("Enter search term: ")
-"    if !empty(grep_term)
-"        vimgrep grep_term % | copen
-"    else
-"        echo "Empty search term"
-"    endif
-"    redraw!
-"endfunction
-"command! Search call MySearch()
-"nnoremap <C-s> :Search<CR>
-
 " tab navigation
 nnoremap <A-1>  1gt
 nnoremap <A-2>  2gt
@@ -149,23 +133,24 @@ nnoremap <A-9>  9gt
 nnoremap <A-0> 10gt
 
 " === spacemacs style key-bindings ===
-nnoremap <leader><TAB> <C-^>
+nnoremap <Leader><TAB> <C-^>
+nnoremap <Leader>sc :noh<CR>
 " vimrc file
-nnoremap <leader>fed :e $MYVIMRC<CR>
-nnoremap <leader>feR :source $MYVIMRC<CR>
+nnoremap <Leader>fed :e $MYVIMRC<CR>
+nnoremap <Leader>feR :source $MYVIMRC<CR>
 " format indent
-nnoremap <leader>j= mogg=G`ozz
+nnoremap <Leader>j= mogg=G`ozz
 " window navigation
-nnoremap <leader>wh <C-W>h
-nnoremap <leader>wj <C-W>j
-nnoremap <leader>wk <C-W>k
-nnoremap <leader>wl <C-W>l
-nnoremap <leader>ww <C-W><C-W>
-nnoremap <leader>ws <C-W>s
-nnoremap <leader>wv <C-W>v
-nnoremap <leader>w= <C-W>=
-nnoremap <leader>wm :only<cr>
-nnoremap <leader>wc :bd<cr>
+nnoremap <Leader>wh <C-W>h
+nnoremap <Leader>wj <C-W>j
+nnoremap <Leader>wk <C-W>k
+nnoremap <Leader>wl <C-W>l
+nnoremap <Leader>ww <C-W><C-W>
+nnoremap <Leader>ws <C-W>s
+nnoremap <Leader>wv <C-W>v
+nnoremap <Leader>w= <C-W>=
+nnoremap <Leader>wm :only<cr>
+nnoremap <Leader>wc :bd<cr>
 
 " remove trailing whitespace
 nnoremap <silent> <Leader>rtw :%s/\s\+$//e<CR>:noh<CR>''
@@ -240,9 +225,9 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\v\.(exe|so|dll)$',
             \ 'node': 'node_modules',
             \ }
-nnoremap <LEADER>bb :CtrlPBuffer<CR>
-nnoremap <LEADER>fr :CtrlPMRU<CR>
-nnoremap <LEADER>pf :CtrlPRoot<CR>
+nnoremap <Leader>bb :CtrlPBuffer<CR>
+nnoremap <Leader>fr :CtrlPMRU<CR>
+nnoremap <Leader>pf :CtrlPRoot<CR>
 
 " === fugitive ===
 nnoremap <Leader>ga :Git add %:p<CR><CR>
