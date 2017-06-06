@@ -1,19 +1,18 @@
 call plug#begin()
 
-Plug 'Chiel92/vim-autoformat'
+"Plug 'Chiel92/vim-autoformat'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
 Plug 'alvan/vim-closetag'
 Plug 'vim-scripts/VisIncr'
 Plug 'szw/vim-smartclose'
+Plug 'kien/ctrlp.vim'
 
 " autocompletion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " file explorer and bookmark
 Plug 'scrooloose/nerdtree'
-" syntax check
-Plug 'benekastah/neomake'
 " auto closing
 Plug 'cohama/lexima.vim'
 " quickly find, substitute, abbreviate
@@ -22,6 +21,8 @@ Plug 'tpope/vim-abolish'
 Plug 'chriskempson/base16-vim'
 " status line
 Plug 'itchyny/lightline.vim'
+" async syntax check
+Plug 'w0rp/ale'
 
 " highlight the paragraph that cursor on
 Plug 'junegunn/limelight.vim'
@@ -30,7 +31,7 @@ Plug 'junegunn/goyo.vim'
 " interface
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neomru.vim'
-Plug 'kien/ctrlp.vim'
+Plug 'chemzqm/unite-location'
 
 """""""""""""
 "  snippet  "
@@ -47,7 +48,7 @@ Plug 'tpope/vim-surround'
 """""""""
 "  Git  "
 """""""""
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 """"""""""""
@@ -198,7 +199,10 @@ endfunction
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" === autoformat ===
+" ===[ale]===
+let g:ale_sign_column_always = 1
+"let g:ale_sign_error = '×'
+"let g:ale_sign_warning = '⚠'
 
 " ===[nerdtree]===
 let NERDTreeShowBookmarks=1
@@ -267,25 +271,31 @@ call denite#custom#var('file_rec', 'command',
 
 let s:menus={}
 let s:menus.nvim = {
-        \ 'description': 'Edit your nvim config file'
-        \ }
+            \ 'description': 'Edit your nvim config file'
+            \ }
 let s:menus.nvim.file_candidates = [
-        \ ['init.vim', '~/.config/nvim/init.vim'],
-        \ ['ginit.vim', '~/.config/nvim/ginit.vim'],
-        \ ]
+            \ ['init.vim', '~/.config/nvim/init.vim'],
+            \ ['ginit.vim', '~/.config/nvim/ginit.vim'],
+            \ ]
+let s:menus.jshint = {'description': 'Configuration the jshint rules.'}
+let s:menus.jshint.file_candidates = [
+            \ ['jshintrc', '~/.jshintrc']
+            \]
 call denite#custom#var('menu', 'menus', s:menus)
 
+nnoremap <Leader>um :Denite menu<CR>
+nnoremap <Leader>uh :Denite help<CR>
+nnoremap <Leader>U* :DeniteCursorWord -auto-resize line<CR>
 nnoremap <Leader>uu :Denite -resume<CR>
 nnoremap <silent> <Leader>uj  :Denite -resume -select=+1 -immediately<CR>
 nnoremap <silent> <Leader>uk  :Denite -resume -select=-1 -immediately<CR>
-nnoremap <Leader>ul :Denite line<CR>
-nnoremap <Leader>U* :DeniteCursorWord -auto-resize line<CR>
-nnoremap <Leader>uh :Denite help<CR>
-nnoremap <Leader>um :Denite menu<CR>
+nnoremap <Leader>uq :Denite -mode=normal quickfix<CR>
+nnoremap <Leader>ul :Denite -mode=normal location_list<CR>
 nnoremap <Leader>pf :DeniteProjectDir file_rec<CR>
 nnoremap <Leader>ff :Denite file_rec<CR>
 nnoremap <Leader>fr :Denite file_mru<CR>
 nnoremap <Leader>bb :Denite buffer<CR>
+nnoremap <Leader>sl :Denite line<CR>
 
 " === deoplete ===
 let g:deoplete#enable_at_startup=1
@@ -341,8 +351,8 @@ omap ic <Plug>GhtGutterTextObjectInnerPending
 omap ac <Plug>GitGutterTextObjectOuterPending
 xmap ic <Plug>GitGutterTextObjectInnerVisual
 xmap ac <Plug>GitGutterTextObjectOuterVisual
-nmap <silent> ]c :call NextHunkAllBuffers()<CR>
-nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+" nmap <silent> ]c :call NextHunkAllBuffers()<CR>
+" nmap <silent> [c :call PrevHunkAllBuffers()<CR>
 " Cycle through hunks in all buffers
 function! NextHunkAllBuffers()
     let line = line('.')
