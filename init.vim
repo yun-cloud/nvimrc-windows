@@ -8,6 +8,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-scripts/VisIncr'
 Plug 'vim-scripts/vimgrep.vim'
 Plug 'szw/vim-smartclose'
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/neomru.vim'
 
 " highlight the paragraph that cursor on
 Plug 'junegunn/limelight.vim'
@@ -214,6 +216,53 @@ let g:limelight_paragraph_span=0
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
+" === denite ===
+call denite#custom#option('default', 'prompt', '> ')
+call denite#custom#option('default', 'empty', 0)
+call denite#custom#option('default', 'auto_resize', 1)
+call denite#custom#option('default', 'winheight', 15)
+call denite#custom#option('default', 'winminheight', 5)
+
+call denite#custom#map('insert', '<C-a>', '<denite:move_caret_to_head>',           'noremap')
+call denite#custom#map('insert', '<C-e>', '<denite:move_caret_to_tail>',           'noremap')
+call denite#custom#map('insert', '<C-h>', '<denite:move_caret_to_one_word_left>',  'noremap')
+call denite#custom#map('insert', '<C-l>', '<denite:move_caret_to_one_word_right>', 'noremap')
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>',            'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>',        'noremap')
+call denite#custom#map('insert', '<C-b>', '<denite:scroll_page_backwards>',        'noremap')
+call denite#custom#map('insert', '<C-f>', '<denite:scroll_page_forwards>',         'noremap')
+call denite#custom#map('insert', '<C-s>', '<denite:do_action:vsplit>',             'noremap')
+call denite#custom#map('insert', '<C-t>', '<denite:do_action:tabopen>',            'noremap')
+call denite#custom#map('insert', '<C-d>', '<denite:do_action:delete>',             'noremap')
+call denite#custom#map('normal', '<Tab>', '<denite:toggle_select_down>',             'noremap')
+
+call denite#custom#var('buffer', 'date_format', '')
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+  \ [ '.git/', '.ropeproject/', '__pycache__/',
+  \   'images/', '*.min.*', 'bundle.js', 'img/',
+  \   'fonts/', 'node_modules/'])
+
+let s:menus={}
+let s:menus.nvim = {
+        \ 'description': 'Edit your nvim config file'
+        \ }
+let s:menus.nvim.file_candidates = [
+        \ ['init.vim', '~/.config/nvim/init.vim'],
+        \ ['ginit.vim', '~/.config/nvim/ginit.vim'],
+        \ ]
+call denite#custom#var('menu', 'menus', s:menus)
+
+nnoremap <Leader>uu :Denite -resume<CR>
+nnoremap <silent> <Leader>uj  :Denite -resume -select=+1 -immediately<CR>
+nnoremap <silent> <Leader>uk  :Denite -resume -select=-1 -immediately<CR>
+nnoremap <Leader>ul :Denite line<CR>
+nnoremap <Leader>U* :DeniteCursorWord -auto-resize line<CR>
+nnoremap <Leader>uh :Denite help<CR>
+nnoremap <Leader>um :Denite menu<CR>
+nnoremap <Leader>ff :Denite file_rec buffer<CR>
+nnoremap <Leader>fr :Denite file_mru<CR>
+nnoremap <Leader>bb :Denite buffer<CR>
+
 " === deoplete ===
 let g:deoplete#enable_at_startup=1
 let g:deoplete#enable_smart_case=1
@@ -238,8 +287,8 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\v\.(exe|so|dll)$',
             \ 'node': 'node_modules',
             \ }
-nnoremap <Leader>bb :CtrlPBuffer<CR>
-nnoremap <Leader>fr :CtrlPMRU<CR>
+"nnoremap <Leader>bb :CtrlPBuffer<CR>
+"nnoremap <Leader>fr :CtrlPMRU<CR>
 nnoremap <Leader>pf :CtrlPRoot<CR>
 
 " === fugitive ===
