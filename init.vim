@@ -69,8 +69,6 @@ set ignorecase
 set splitbelow
 set cmdheight=1
 set clipboard+=unnamedplus
-set background=dark
-set t_ut=256
 
 " ignore files, dirs. (Also see nerdtree, ctrlp)
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
@@ -87,6 +85,9 @@ set listchars=tab:»‥,trail:·,precedes:<,extends:>
 colo desert
 colo base16-google-dark
 set background=dark
+set t_ut=256
+
+hi Search guibg=peru guifg=wheat
 
 let g:python_host_prog  = 'C:\Python27\python2.exe'
 let g:python3_host_prog = 'C:\Program Files (x86)\Python36-32\python3.exe'
@@ -177,7 +178,8 @@ endfunction
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" === nerdtree ===
+" ===[nerdtree]===
+let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
 let g:NERDTreeIgnore=['\~$', 'vendor', 'node_modules']
 nnoremap <Leader>x :NERDTreeToggle<CR>
