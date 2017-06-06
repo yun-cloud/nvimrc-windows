@@ -1,29 +1,36 @@
 call plug#begin()
-Plug 'tpope/vim-repeat'
+
+Plug 'Chiel92/vim-autoformat'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
-Plug 'kien/ctrlp.vim'
+Plug 'tpope/vim-repeat'
 Plug 'alvan/vim-closetag'
-Plug 'scrooloose/nerdtree'
 Plug 'vim-scripts/VisIncr'
-Plug 'vim-scripts/vimgrep.vim'
 Plug 'szw/vim-smartclose'
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/neomru.vim'
 
-" highlight the paragraph that cursor on
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/goyo.vim'
-" base16 colorscheme
-Plug 'chriskempson/base16-vim'
-" status line
-Plug 'itchyny/lightline.vim'
 " autocompletion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" file explorer and bookmark
+Plug 'scrooloose/nerdtree'
+" syntax check
+Plug 'benekastah/neomake'
 " auto closing
 Plug 'cohama/lexima.vim'
 " quickly find, substitute, abbreviate
 Plug 'tpope/vim-abolish'
+" base16 colorscheme
+Plug 'chriskempson/base16-vim'
+" status line
+Plug 'itchyny/lightline.vim'
+
+" highlight the paragraph that cursor on
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+
+" interface
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/neomru.vim'
+Plug 'kien/ctrlp.vim'
 
 """""""""""""
 "  snippet  "
@@ -37,12 +44,16 @@ Plug 'honza/vim-snippets'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-surround'
 
-
 """""""""
 "  Git  "
 """""""""
 "Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+""""""""""""
+"  Python  "
+""""""""""""
+
 
 call plug#end()
 
@@ -187,6 +198,8 @@ endfunction
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" === autoformat ===
+
 " ===[nerdtree]===
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
@@ -237,10 +250,20 @@ call denite#custom#map('insert', '<C-d>', '<denite:do_action:delete>',          
 call denite#custom#map('normal', '<Tab>', '<denite:toggle_select_down>',             'noremap')
 
 call denite#custom#var('buffer', 'date_format', '')
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-  \ [ '.git/', '.ropeproject/', '__pycache__/',
-  \   'images/', '*.min.*', 'bundle.js', 'img/',
-  \   'fonts/', 'node_modules/'])
+call denite#custom#var('file_rec', 'command',
+            \ ['pt', '--follow', '--nocolor', '--nogroup',
+            \  (has('win32') ? '-g:' : '-g='), ''])
+" call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+"   \ [ '.git/', '.ropeproject/', '__pycache__/',
+"   \   'images/', '*.min.*', 'bundle.js', 'img',
+"   \   'fonts/', 'node_modules/', '.DS_STORE'])
+"
+" [
+"             \  '*~', '*.o', '*.exe', '*.bak',
+"             \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
+"             \ '.hg/', '.git/', '.bzr/', '.svn/',
+"             \ 'tags', 'tags-*'
+" ]
 
 let s:menus={}
 let s:menus.nvim = {
@@ -259,7 +282,8 @@ nnoremap <Leader>ul :Denite line<CR>
 nnoremap <Leader>U* :DeniteCursorWord -auto-resize line<CR>
 nnoremap <Leader>uh :Denite help<CR>
 nnoremap <Leader>um :Denite menu<CR>
-nnoremap <Leader>ff :Denite file_rec buffer<CR>
+nnoremap <Leader>pf :DeniteProjectDir file_rec<CR>
+nnoremap <Leader>ff :Denite file_rec<CR>
 nnoremap <Leader>fr :Denite file_mru<CR>
 nnoremap <Leader>bb :Denite buffer<CR>
 
@@ -289,7 +313,7 @@ let g:ctrlp_custom_ignore = {
             \ }
 "nnoremap <Leader>bb :CtrlPBuffer<CR>
 "nnoremap <Leader>fr :CtrlPMRU<CR>
-nnoremap <Leader>pf :CtrlPRoot<CR>
+"nnoremap <Leader>pf :CtrlPRoot<CR>
 
 " === fugitive ===
 nnoremap <Leader>ga :Git add %:p<CR><CR>
