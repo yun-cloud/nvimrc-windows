@@ -7,6 +7,7 @@ Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-scripts/VisIncr'
 Plug 'vim-scripts/vimgrep.vim'
+Plug 'szw/vim-smartclose'
 
 " highlight the paragraph that cursor on
 Plug 'junegunn/limelight.vim'
@@ -114,6 +115,10 @@ nnoremap <Leader>cn :cn<CR>
 nnoremap <Leader>cp :cp<CR>
 nnoremap <Leader>cw :cw 10<CR>
 nnoremap <Leader>cx :cclose<CR>
+nmap [q :cp<CR>
+nmap ]q :cn<CR>
+nmap [Q :cfirst<CR>
+nmap ]Q :clast<CR>
 " location list
 nnoremap <Leader>ll :ll<CR>
 nnoremap <Leader>ln :lne<CR>
@@ -136,6 +141,7 @@ nnoremap <A-0> 10gt
 " === spacemacs style key-bindings ===
 nnoremap <Leader><TAB> <C-^>
 nnoremap <Leader>sc :noh<CR>
+nnoremap <Leader>bd :bd<CR>
 " vimrc file
 nnoremap <Leader>fed :e $MYVIMRC<CR>
 nnoremap <Leader>feR :source $MYVIMRC<CR>
@@ -150,8 +156,9 @@ nnoremap <Leader>ww <C-W><C-W>
 nnoremap <Leader>ws <C-W>s
 nnoremap <Leader>wv <C-W>v
 nnoremap <Leader>w= <C-W>=
-nnoremap <Leader>wm :only<cr>
-nnoremap <Leader>wc :bd<cr>
+nnoremap <Leader>wm :only<CR>
+" now use SmartClose instead
+" nnoremap <Leader>wc :bd<CR>
 
 " remove trailing whitespace
 nnoremap <silent> <Leader>rtw :%s/\s\+$//e<CR>:noh<CR>''
@@ -192,6 +199,10 @@ nmap <Leader>;; <Plug>CommentaryLine
 
 " === vim-closetag ===
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
+
+" === smartclose ===
+let g:smartclose_set_default_mapping = 0
+nnoremap <silent><Leader>wc :SmartClose<cr>
 
 " === Goyo ===
 let g:goyo_width = '85%'
