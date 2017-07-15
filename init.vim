@@ -1,6 +1,6 @@
 call plug#begin()
 
-"Plug 'Chiel92/vim-autoformat'
+Plug 'Chiel92/vim-autoformat'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
@@ -17,18 +17,23 @@ Plug 'scrooloose/nerdtree'
 Plug 'cohama/lexima.vim'
 " quickly find, substitute, abbreviate
 Plug 'tpope/vim-abolish'
-" base16 colorscheme
-Plug 'chriskempson/base16-vim'
-" status line
-Plug 'itchyny/lightline.vim'
 " async syntax check
 Plug 'w0rp/ale'
+
+Plug 'kien/rainbow_parentheses.vim'
 
 " highlight the paragraph that cursor on
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 
-" interface
+"""""""""""""""""
+"  status line  "
+"""""""""""""""""
+Plug 'itchyny/lightline.vim'
+
+"""""""""""""""
+"  interface  "
+"""""""""""""""
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neomru.vim'
 Plug 'chemzqm/unite-location'
@@ -38,6 +43,12 @@ Plug 'chemzqm/unite-location'
 """""""""""""
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+"""""""""""""""""
+"  Colorscheme  "
+"""""""""""""""""
+Plug 'chriskempson/base16-vim'
+Plug 'ajmwagar/vim-deus'
 
 """""""""""""""""
 "  text object  "
@@ -51,9 +62,15 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-""""""""""""
-"  Python  "
-""""""""""""
+""""""""""
+"  Rust  "
+""""""""""
+Plug 'rust-lang/rust.vim'
+
+""""""""""""""""
+"  javascript  "
+""""""""""""""""
+Plug 'pangloss/vim-javascript'
 
 
 call plug#end()
@@ -77,6 +94,7 @@ autocmd FileType javascript setlocal expandtab shiftwidth=4 softtabstop=4
 
 set number
 set relativenumber
+set nowrap
 set showmatch
 set cursorline
 set smartcase
@@ -97,12 +115,14 @@ set list
 "set listchars=tab:»\ ,trail:·,precedes:<,extends:>
 set listchars=tab:»‥,trail:·,precedes:<,extends:>
 
-colo desert
-colo base16-google-dark
 set background=dark
 set t_ut=256
+colo desert
+colo base16-google-dark
+" colo base16-solarized-dark
+colo deus
 
-hi Search guibg=peru guifg=wheat
+" highlight Search guibg=peru guifg=wheat
 
 let g:python_host_prog  = 'C:\Python27\python2.exe'
 let g:python3_host_prog = 'C:\Program Files (x86)\Python36-32\python3.exe'
@@ -119,6 +139,9 @@ nnoremap ; :
 nnoremap : ;
 xnoremap ; :
 xnoremap : ;
+
+" nnoremap j gj
+" nnoremap k gk
 
 " enter for reload file and clear hlsearch
 "nnoremap <CR> <CR>:e<CR>:noh<CR>
@@ -159,8 +182,8 @@ nnoremap <Leader>bd :bd<CR>
 " vimrc file
 nnoremap <Leader>fed :e $MYVIMRC<CR>
 nnoremap <Leader>feR :source $MYVIMRC<CR>
-" format indent
-nnoremap <Leader>j= mogg=G`ozz
+" format indent, switch to autoformat
+"nnoremap <Leader>j= mogg=G`ozz
 " window navigation
 nnoremap <Leader>wh <C-W>h
 nnoremap <Leader>wj <C-W>j
@@ -199,10 +222,14 @@ endfunction
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" ===[autoformat]===
+nnoremap <Leader>j= :Autoformat<CR>
 " ===[ale]===
-let g:ale_sign_column_always = 1
+"let g:ale_sign_column_always = 1
 "let g:ale_sign_error = '×'
 "let g:ale_sign_warning = '⚠'
+nmap <silent> [e <Plug>(ale_previous_wrap)
+nmap <silent> ]e <Plug>(ale_next_wrap)
 
 " ===[nerdtree]===
 let NERDTreeShowBookmarks=1
@@ -224,8 +251,8 @@ let g:smartclose_set_default_mapping = 0
 nnoremap <silent><Leader>wc :SmartClose<cr>
 
 " === Goyo ===
-let g:goyo_width = '85%'
-let g:goyo_height = '85%'
+"let g:goyo_width = '85%'
+"let g:goyo_height = '85%'
 
 " === limelight ===
 " Number of preceding/following paragraphs to include (default: 0)
@@ -237,7 +264,7 @@ autocmd! User GoyoLeave Limelight!
 call denite#custom#option('default', 'prompt', '> ')
 call denite#custom#option('default', 'empty', 0)
 call denite#custom#option('default', 'auto_resize', 1)
-call denite#custom#option('default', 'winheight', 15)
+call denite#custom#option('default', 'winheight', 12)
 call denite#custom#option('default', 'winminheight', 5)
 
 call denite#custom#map('insert', '<C-a>', '<denite:move_caret_to_head>',           'noremap')
@@ -257,17 +284,6 @@ call denite#custom#var('buffer', 'date_format', '')
 call denite#custom#var('file_rec', 'command',
             \ ['pt', '--follow', '--nocolor', '--nogroup',
             \  (has('win32') ? '-g:' : '-g='), ''])
-" call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-"   \ [ '.git/', '.ropeproject/', '__pycache__/',
-"   \   'images/', '*.min.*', 'bundle.js', 'img',
-"   \   'fonts/', 'node_modules/', '.DS_STORE'])
-"
-" [
-"             \  '*~', '*.o', '*.exe', '*.bak',
-"             \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
-"             \ '.hg/', '.git/', '.bzr/', '.svn/',
-"             \ 'tags', 'tags-*'
-" ]
 
 let s:menus={}
 let s:menus.nvim = {
@@ -281,21 +297,32 @@ let s:menus.jshint = {'description': 'Configuration the jshint rules.'}
 let s:menus.jshint.file_candidates = [
             \ ['jshintrc', '~/.jshintrc']
             \]
+let s:menus.Colorscheme = {'description': 'Change the colorscheme.'}
+let s:menus.Colorscheme.command_candidates = [
+            \ ['base16-google-dark',    'colorscheme base16-google-dark'],
+            \ ['base16-solarized-dark', 'colorscheme base16-solarized-dark'],
+            \ ['base16-spacemacs',      'colorscheme base16-spacemacs'],
+            \ ['base16-atelier-forest', 'colorscheme base16-atelier-forest'],
+            \ ['base16-materia',        'colorscheme base16-materia'],
+            \ ['dues',                  'colorscheme dues'],
+            \ ]
 call denite#custom#var('menu', 'menus', s:menus)
 
-nnoremap <Leader>um :Denite menu<CR>
-nnoremap <Leader>uh :Denite help<CR>
-nnoremap <Leader>U* :DeniteCursorWord -auto-resize line<CR>
-nnoremap <Leader>uu :Denite -resume<CR>
-nnoremap <silent> <Leader>uj  :Denite -resume -select=+1 -immediately<CR>
-nnoremap <silent> <Leader>uk  :Denite -resume -select=-1 -immediately<CR>
-nnoremap <Leader>uq :Denite -mode=normal quickfix<CR>
-nnoremap <Leader>ul :Denite -mode=normal location_list<CR>
-nnoremap <Leader>pf :DeniteProjectDir file_rec<CR>
-nnoremap <Leader>ff :Denite file_rec<CR>
-nnoremap <Leader>fr :Denite file_mru<CR>
-nnoremap <Leader>bb :Denite buffer<CR>
-nnoremap <Leader>sl :Denite line<CR>
+nnoremap <silent> <Leader>um :Denite -mode=normal menu<CR>
+nnoremap <silent> <Leader>uh :Denite help<CR>
+nnoremap <silent> <Leader>ub :Denite -mode=normal buffer<CR>
+nnoremap <silent> <Leader>uu :Denite -resume<CR>
+nnoremap <silent> <Leader>uj :Denite -resume -select=+1 -immediately<CR>
+nnoremap <silent> <Leader>uk :Denite -resume -select=-1 -immediately<CR>
+nnoremap <silent> <Leader>uq :Denite -mode=normal quickfix<CR>
+nnoremap <silent> <Leader>ul :Denite -mode=normal location_list<CR>
+nnoremap <silent> <Leader>pf :DeniteProjectDir file_rec<CR>
+nnoremap <silent> <Leader>ff :Denite file_rec<CR>
+nnoremap <silent> <Leader>fr :Denite file_mru<CR>
+nnoremap <silent> <Leader>bb :Denite buffer<CR>
+nnoremap <silent> <Leader>sl :Denite line<CR>
+nnoremap <silent> <Leader>s* :DeniteCursorWord line<CR>
+nnoremap <silent> <Leader>U* :DeniteCursorWord line<CR>
 
 " === deoplete ===
 let g:deoplete#enable_at_startup=1
@@ -313,8 +340,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
 " === ctrlp ===
-let g:ctrlp_max_files = 10000
-let g:ctrlp_max_depth = 40
+let g:ctrlp_max_files = 500
+let g:ctrlp_max_depth = 5
 "let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -324,6 +351,34 @@ let g:ctrlp_custom_ignore = {
 "nnoremap <Leader>bb :CtrlPBuffer<CR>
 "nnoremap <Leader>fr :CtrlPMRU<CR>
 "nnoremap <Leader>pf :CtrlPRoot<CR>
+
+"""""""""""""""""""""""""
+"  rainbow_parentheses  "
+"""""""""""""""""""""""""
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " === fugitive ===
 nnoremap <Leader>ga :Git add %:p<CR><CR>
@@ -357,6 +412,7 @@ xmap ac <Plug>GitGutterTextObjectOuterVisual
 function! NextHunkAllBuffers()
     let line = line('.')
     GitGutterNextHunk
+    GitGutterPreviewHunk
     if line('.') != line
         return
     endif
@@ -370,6 +426,7 @@ function! NextHunkAllBuffers()
         if !empty(GitGutterGetHunks())
             normal! 1G
             GitGutterNextHunk
+            GitGutterPreviewHunk
             return
         endif
     endwhile
@@ -378,6 +435,7 @@ endfunction
 function! PrevHunkAllBuffers()
     let line = line('.')
     GitGutterPrevHunk
+    GitGutterPreviewHunk
     if line('.') != line
         return
     endif
@@ -391,6 +449,7 @@ function! PrevHunkAllBuffers()
         if !empty(GitGutterGetHunks())
             normal! G
             GitGutterPrevHunk
+            GitGutterPreviewHunk
             return
         endif
     endwhile
