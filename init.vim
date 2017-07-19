@@ -1,5 +1,6 @@
 " # Pluggins (managed by vim-plug) {{{1
 call plug#begin()
+
 Plug 'Chiel92/vim-autoformat'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
@@ -32,6 +33,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'rust-lang/rust.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'qpkorr/vim-bufkill'
+Plug 'xolox/vim-session'
+
 call plug#end()
 
 " # Configuration {{{1
@@ -42,9 +45,6 @@ set expandtab shiftwidth=4 softtabstop=4
 autocmd FileType make setlocal noexpandtab shiftwidth=8 tabstop=8
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType javascript,json setlocal expandtab shiftwidth=2 softtabstop=2
-
-" Folding {{{2
-autocmd Filetype vim setlocal foldmethod=marker
 
 " Configs {{{2
 filetype on
@@ -58,6 +58,8 @@ set cursorline
 set smartcase
 set ignorecase
 set splitbelow
+set modeline
+set modelines=5
 set cmdheight=1
 set clipboard+=unnamedplus
 set list
@@ -169,50 +171,50 @@ nnoremap <silent> <Leader>rtw :%s/\s\+$//e<CR>:noh<CR>''
 
 
 " # Pluggin Settings {{{1
-" [vim-easy-align] {{{2
+" ## [vim-easy-align] {{{2
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" [vim-autoformat] {{{2
+" ## [vim-autoformat] {{{2
 nnoremap <Leader>j= :Autoformat<CR>
 
-" [ale] {{{2
+" ## [ale] {{{2
 "let g:ale_sign_column_always = 1
 "let g:ale_sign_error = '×'
 "let g:ale_sign_warning = '⚠'
 nmap <silent> [e <Plug>(ale_previous_wrap)
 nmap <silent> ]e <Plug>(ale_next_wrap)
 
-" [nerdtree] {{{2
+" ## [nerdtree] {{{2
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
 let g:NERDTreeIgnore=['\~$', 'vendor', 'node_modules']
 nnoremap <Leader>x :NERDTreeToggle<CR>
 
-" [vim-commentary] {{{2
+" ## [vim-commentary] {{{2
 nmap <Leader>;  <Plug>Commentary
 omap <Leader>;  <Plug>Commentary
 vmap <Leader>;  <Plug>Commentary
 nmap <Leader>;; <Plug>CommentaryLine
 
-" [vim-closetag] {{{2
+" ## [vim-closetag] {{{2
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.jsx"
 
-" [smartclose] {{{2
+" ## [smartclose] {{{2
 let g:smartclose_set_default_mapping = 0
 nnoremap <silent><Leader>wc :SmartClose<cr>
 
-" [goyo.vim] {{{2
+" ## [goyo.vim] {{{2
 "let g:goyo_width = '85%'
 "let g:goyo_height = '85%'
 
-" [limelight] {{{2
+" ## [limelight] {{{2
 " Number of preceding/following paragraphs to include (default: 0)
 let g:limelight_paragraph_span=0
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
-" [denite] {{{2
+" ## [denite] {{{2
 " options {{{3
 call denite#custom#option('default', 'prompt', '> ')
 call denite#custom#option('default', 'empty', 0)
@@ -278,14 +280,14 @@ nnoremap <silent> <Leader>sl :Denite line<CR>
 nnoremap <silent> <Leader>s* :DeniteCursorWord line<CR>
 nnoremap <silent> <Leader>U* :DeniteCursorWord line<CR>
 
-" [deoplete] {{{2
+" ## [deoplete] {{{2
 let g:deoplete#enable_at_startup=1
 let g:deoplete#enable_smart_case=1
 set completeopt-=noinsert
 set completeopt-=preview
 autocmd CompleteDone * pclose!
 
-" [deoplete-ternjs] {{{2
+" ## [deoplete-ternjs] {{{2
 " Use deoplete.
 let g:tern_request_timeout = 1
 " let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
@@ -295,7 +297,7 @@ let g:tern#filetypes = [
                 \ 'jsx',
                 \ 'javascript.jsx',
                 \ ]
-" [ctrlp] {{{2
+" ## [ctrlp] {{{2
 let g:ctrlp_max_files = 500
 let g:ctrlp_max_depth = 5
 "let g:ctrlp_working_path_mode = 'ra'
@@ -308,7 +310,7 @@ let g:ctrlp_custom_ignore = {
 "nnoremap <Leader>fr :CtrlPMRU<CR>
 "nnoremap <Leader>pf :CtrlPRoot<CR>
 
-" [ultisnips] {{{2
+" ## [ultisnips] {{{2
 " Trigger configuration.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -316,10 +318,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-" [vim-bufkill] {{{2
+" ## [vim-bufkill] {{{2
 nnoremap <Leader>bd :BD<CR>
 
-" [rainbow_parentheses] {{{2
+" ## [rainbow_parentheses] {{{2
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
     \ ['Darkblue',    'SeaGreen3'],
@@ -345,7 +347,7 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-" [fugitive] {{{2
+" ## [fugitive] {{{2
 nnoremap <Leader>ga :Git add %:p<CR><CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gc :Gcommit -v -q<CR>
@@ -359,7 +361,7 @@ nnoremap <Leader>gp :Ggrep<Space>
 nnoremap <Leader>gb :Git branch<Space>
 nnoremap <Leader>go :Git checkout<Space>
 
-" [gitgutter] {{{2
+" ## [gitgutter] {{{2
 let g:gitgutter_map_keys = 0
 " hunk or change
 nmap <Leader>ghs <Plug>GitGutterStageHunk
@@ -420,7 +422,7 @@ function! PrevHunkAllBuffers()
     endwhile
 endfunction
 
-" [lightline] {{{2
+" ## [lightline] {{{2
 let g:lightline = {
             \ 'colorscheme': 'solarized',
             \ 'mode_map': { 'c': 'NORMAL' },
@@ -479,4 +481,4 @@ function! LightlineFileencoding()
 endfunction
 
 " # Modeline {{{1
-"vim:set et sw=4 ts=8 tw=78:
+" vim: set foldmethod=marker et sw=4 ts=8 tw=78 :
