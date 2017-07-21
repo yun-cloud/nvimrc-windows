@@ -9,8 +9,6 @@ Plug 'alvan/vim-closetag'
 Plug 'vim-scripts/VisIncr'
 Plug 'szw/vim-smartclose'
 Plug 'kien/ctrlp.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'carlitux/deoplete-ternjs', {'do': 'npm install -g tern'}
 Plug 'scrooloose/nerdtree'
 Plug 'cohama/lexima.vim'
 Plug 'tpope/vim-abolish'
@@ -28,6 +26,10 @@ Plug 'pangloss/vim-javascript'
 Plug 'qpkorr/vim-bufkill'
 Plug 'xolox/vim-session'
 
+
+" Autocomplete {{{2
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'carlitux/deoplete-ternjs', {'do': 'npm install -g tern'}
 " Snippets {{{2
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
