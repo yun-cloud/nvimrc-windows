@@ -26,7 +26,6 @@ Plug 'pangloss/vim-javascript'
 Plug 'qpkorr/vim-bufkill'
 Plug 'xolox/vim-session'
 
-
 " Autocomplete {{{2
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'carlitux/deoplete-ternjs', {'do': 'npm install -g tern'}
