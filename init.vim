@@ -18,23 +18,37 @@ Plug 'w0rp/ale'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'itchyny/lightline.vim'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neomru.vim'
 Plug 'chemzqm/unite-location'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'chriskempson/base16-vim'
-Plug 'ajmwagar/vim-deus'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
 Plug 'rust-lang/rust.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'qpkorr/vim-bufkill'
 Plug 'xolox/vim-session'
 
+" Snippets {{{2
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+" Git {{{2
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'gregsexton/gitv'
+
+" Colorscheme, Highlihgting {{{2
+Plug 'chriskempson/base16-vim'
+Plug 'ajmwagar/vim-deus'
+Plug 'joshdick/onedark.vim'
+
+" Highlihgting {{{2
+Plug 'sheerun/vim-polyglot'
+
+" Statusline {{{2
+Plug 'itchyny/lightline.vim'
+
+" End Plug Settings {{{2
+" }}}
 call plug#end()
 
 " # Configuration {{{1
@@ -77,10 +91,10 @@ set wildignore+=*\\node_modules\\*
 " Colorscheme {{{2
 set background=dark
 set t_ut=256
-colo desert
-colo base16-google-dark
-" colo base16-solarized-dark
-colo deus
+colorscheme desert
+colorscheme base16-google-dark
+colorscheme deus
+colorscheme onedark
 
 " # Mapping {{{1
 " Leader key {{{2
@@ -182,14 +196,20 @@ nnoremap <Leader>j= :Autoformat<CR>
 "let g:ale_sign_column_always = 1
 "let g:ale_sign_error = '×'
 "let g:ale_sign_warning = '⚠'
+let g:ale_linters = {
+\   'javascript': ['standard'],
+\}
 nmap <silent> [e <Plug>(ale_previous_wrap)
 nmap <silent> ]e <Plug>(ale_next_wrap)
 
 " ## [nerdtree] {{{2
 let NERDTreeShowBookmarks=1
-let NERDTreeQuitOnOpen=1
-let g:NERDTreeIgnore=['\~$', 'vendor', 'node_modules']
-nnoremap <Leader>x :NERDTreeToggle<CR>
+" let NERDTreeQuitOnOpen=1
+let g:NERDTreeIgnore=[
+            \ '\~$',
+            \ '^node_modules$[[dir]]'
+            \ ]
+nnoremap <Leader>ft :NERDTreeToggle<CR>
 
 " ## [vim-commentary] {{{2
 nmap <Leader>;  <Plug>Commentary
@@ -258,6 +278,7 @@ let s:menus.jshint.file_candidates = [
 let s:menus.Colorscheme = {'description': 'Change the colorscheme.'}
 let s:menus.Colorscheme.command_candidates = [
             \ ['deus',                  'colorscheme deus'],
+            \ ['onedark',               'colorscheme onedark'],
             \ ['base16-google-dark',    'colorscheme base16-google-dark'],
             \ ['base16-solarized-dark', 'colorscheme base16-solarized-dark'],
             \ ['base16-spacemacs',      'colorscheme base16-spacemacs'],
@@ -424,7 +445,7 @@ endfunction
 
 " ## [lightline] {{{2
 let g:lightline = {
-            \ 'colorscheme': 'solarized',
+            \ 'colorscheme': 'onedark',
             \ 'mode_map': { 'c': 'NORMAL' },
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
@@ -481,4 +502,4 @@ function! LightlineFileencoding()
 endfunction
 
 " # Modeline {{{1
-" vim: set foldmethod=marker et sw=4 ts=8 tw=78 :
+" vim: set foldmethod=marker foldlevel=1 et sw=4 ts=8 tw=78 :
