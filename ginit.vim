@@ -1,1 +1,0 @@
-Guifont! InputMono:h16
