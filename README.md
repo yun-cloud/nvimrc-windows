@@ -1,0 +1,1 @@
+Neovim, Windows vimrc
