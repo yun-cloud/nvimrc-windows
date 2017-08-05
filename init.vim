@@ -58,6 +58,8 @@ Plug 'gregsexton/gitv'
 " Colorscheme, Highlihgting {{{2
 Plug 'chriskempson/base16-vim'
 Plug 'joshdick/onedark.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'morhetz/gruvbox'
 
 " Highlihgting {{{2
 Plug 'sheerun/vim-polyglot'
@@ -82,7 +84,7 @@ filetype plugin on
 filetype indent on
 
 set number
-set relativenumber
+" set relativenumber
 set nowrap
 set showmatch
 set noshowmode
@@ -125,7 +127,8 @@ set background=dark
 set t_ut=256
 " colorscheme desert
 " colorscheme base16-google-dark
-colorscheme onedark
+" colorscheme onedark
+colorscheme gruvbox
 
 " # Mapping {{{1
 " ## Leader key {{{2
@@ -266,13 +269,13 @@ autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
 " ## [denite] {{{2
-" options {{{3
+" denite-options
 call denite#custom#option('default', 'prompt', '> ')
 call denite#custom#option('default', 'empty', 0)
 call denite#custom#option('default', 'auto_resize', 1)
 call denite#custom#option('default', 'winheight', 12)
 call denite#custom#option('default', 'winminheight', 5)
-" mapping in denite {{{3
+" denite-interfaceMapping
 call denite#custom#map('insert', '<C-a>', '<denite:move_caret_to_head>',           'noremap')
 call denite#custom#map('insert', '<C-e>', '<denite:move_caret_to_tail>',           'noremap')
 call denite#custom#map('insert', '<C-h>', '<denite:move_caret_to_one_word_left>',  'noremap')
@@ -284,17 +287,17 @@ call denite#custom#map('insert', '<C-f>', '<denite:scroll_page_forwards>',      
 call denite#custom#map('insert', '<C-s>', '<denite:do_action:vsplit>',             'noremap')
 call denite#custom#map('insert', '<C-t>', '<denite:do_action:tabopen>',            'noremap')
 call denite#custom#map('insert', '<C-d>', '<denite:do_action:delete>',             'noremap')
-call denite#custom#map('normal', '<Tab>', '<denite:toggle_select_down>',             'noremap')
-" coustomization {{{3
+call denite#custom#map('normal', '<Tab>', '<denite:toggle_select_down>',           'noremap')
+" interface-coustomization
 call denite#custom#var('buffer', 'date_format', '')
-" call denite#custom#var('file_rec', 'command',
-"             \ ['pt', '--follow', '--nocolor', '--nogroup',
-"             \  (has('win32') ? '-g:' : '-g='), ''])
 call denite#custom#var('file_rec', 'command',
-            \ ['rg', '--files', '--glob', '!.git', ''])
-" menu {{{3
+            \ ['pt', '--follow', '--nocolor', '--nogroup',
+            \  (has('win32') ? '-g:' : '-g='), ''])
+" call denite#custom#var('file_rec', 'command',
+"             \ ['rg', '--files', '--glob', '!.git', ''])
+" denite-menu
 let s:menus={}
-" nvim
+" dente-menu-nvim
 let s:menus.nvim = {
             \ 'description': 'Edit your nvim config file'
             \ }
@@ -305,7 +308,7 @@ let s:menus.nvim.file_candidates = [
 let s:menus.nvim.command_candidates = [
             \ [':PlugSnapshot', 'PlugSnapshot ~/.config/nvim/snapshot.vim'],
             \ ]
-" guifont
+" denite-menu-guifont
 let s:menus.guifont = {
             \ 'description': 'Apply difference font',
             \}
@@ -314,18 +317,19 @@ let s:menus.guifont.command_candidates = [
             \ ['Mononoki', 'Guifont! mononoki\ NF:h16'],
             \ ['Hack',     'Guifont! Knack\ NF:h16'],
             \]
-" colorscheme
+" denite-menu-colorscheme
 let s:menus.Colorscheme = {'description': 'Change the colorscheme.'}
 let s:menus.Colorscheme.command_candidates = [
-            \ ['onedark',               'colo onedark'],
-            \ ['base16-google-dark',    'colo base16-google-dark'],
-            \ ['base16-solarized-dark', 'colo base16-solarized-dark'],
+            \ ['onedark',               'colorscheme onedark'],
+            \ ['gruvbox',               'colorscheme gruvbox'],
+            \ ['hybrid',                'colorscheme hybrid'],
+            \ ['base16-google-dark',    'colorscheme base16-google-dark'],
+            \ ['base16-solarized-dark', 'colorscheme base16-solarized-dark'],
             \ ]
-" Commands
 call denite#custom#var('menu', 'menus', s:menus)
-" mapping {{{3
-nnoremap <silent> <Leader>um :Denite menu<CR>
-nnoremap <silent> <Leader>uh :Denite help<CR>
+" denite-Mapping
+nnoremap <silent> <Leader>m :Denite menu<CR>
+nnoremap <silent> <Leader>h :Denite help<CR>
 nnoremap <silent> <Leader>ub :Denite -mode=normal buffer<CR>
 nnoremap <silent> <Leader>uu :Denite -resume<CR>
 nnoremap <silent> <Leader>uj :Denite -resume -select=+1 -immediately<CR>
@@ -346,6 +350,11 @@ let g:deoplete#enable_smart_case=1
 set completeopt-=noinsert
 set completeopt-=preview
 autocmd CompleteDone * pclose!
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+    return deoplete#close_popup() . "\<CR>"
+endfunction
 
 " ## [neosnippet] {{{2
 " SuperTab like snippets behavior.
