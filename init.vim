@@ -57,7 +57,6 @@ Plug 'gregsexton/gitv'
 
 " Colorscheme, Highlihgting {{{2
 Plug 'chriskempson/base16-vim'
-Plug 'ajmwagar/vim-deus'
 Plug 'joshdick/onedark.vim'
 
 " Highlihgting {{{2
@@ -126,7 +125,6 @@ set background=dark
 set t_ut=256
 " colorscheme desert
 " colorscheme base16-google-dark
-" colorscheme deus
 colorscheme onedark
 
 " # Mapping {{{1
@@ -304,6 +302,9 @@ let s:menus.nvim.file_candidates = [
             \ ['init.vim', '~/.config/nvim/init.vim'],
             \ ['ginit.vim', '~/.config/nvim/ginit.vim'],
             \ ]
+let s:menus.nvim.command_candidates = [
+            \ [':PlugSnapshot', 'PlugSnapshot ~/.config/nvim/snapshot.vim'],
+            \ ]
 " guifont
 let s:menus.guifont = {
             \ 'description': 'Apply difference font',
@@ -316,12 +317,11 @@ let s:menus.guifont.command_candidates = [
 " colorscheme
 let s:menus.Colorscheme = {'description': 'Change the colorscheme.'}
 let s:menus.Colorscheme.command_candidates = [
-            \ ['deus',                  'colo deus'],
             \ ['onedark',               'colo onedark'],
             \ ['base16-google-dark',    'colo base16-google-dark'],
             \ ['base16-solarized-dark', 'colo base16-solarized-dark'],
-            \ ['base16-spacemacs',      'colo base16-spacemacs'],
             \ ]
+" Commands
 call denite#custom#var('menu', 'menus', s:menus)
 " mapping {{{3
 nnoremap <silent> <Leader>um :Denite menu<CR>
