@@ -1,4 +1,4 @@
-" # Plugins {{{1
+" === Plugins === {{{1
 call plug#begin()
 " Misc {{{2
 Plug 'Shougo/echodoc.vim'
@@ -68,15 +68,14 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" glyph(icon)
+" glyph(icon) {{{2
+" Need to be loaded after [nerdtree], [startify], [airline], [denite], etc.
 Plug 'ryanoasis/vim-devicons'
 
-" End plugin list {{{2
-" }}}
+" ## END }}}2
 call plug#end()
 
-" # Configuration {{{1
-
+" === Configuration === {{{1
 " ## Configs {{{2
 filetype on
 filetype plugin on
@@ -129,7 +128,9 @@ set t_ut=256
 " colorscheme onedark
 colorscheme gruvbox
 
-" # Mapping {{{1
+" }}}
+
+" === Mapping === {{{1
 " ## Leader key {{{2
 let mapleader = "\<SPACE>"
 nnoremap <Space> <Nop>
@@ -219,7 +220,7 @@ nnoremap <silent> <Leader>rtw :%s/\s\+$//e<CR>:noh<CR>''
 
 "}}}
 
-" # Pluggin Settings {{{1
+" === Pluggin Settings === {{{1
 " ## [vim-easy-align] {{{2
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -402,7 +403,7 @@ nnoremap <Leader>ga :Git add %:p<CR><CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gc :Gcommit -v -q<CR>
 nnoremap <Leader>gt :Gcommit -v -q %:p<CR>
-nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gd :Gvdiff<CR>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gr :Gread<CR>
 nnoremap <Leader>gw :Gwrite<CR><CR>
@@ -421,56 +422,8 @@ omap ic <Plug>GhtGutterTextObjectInnerPending
 omap ac <Plug>GitGutterTextObjectOuterPending
 xmap ic <Plug>GitGutterTextObjectInnerVisual
 xmap ac <Plug>GitGutterTextObjectOuterVisual
-" nmap ]c <Plug>GitGutterNextHunk
-" nmap [c <Plug>GitGutterPrevHunk
-nmap <silent> ]c :call NextHunkAllBuffers()<CR>
-nmap <silent> [c :call PrevHunkAllBuffers()<CR>
-" Cycle through hunks in all buffers
-function! NextHunkAllBuffers()
-    let line = line('.')
-    GitGutterNextHunk
-    GitGutterPreviewHunk
-    if line('.') != line
-        return
-    endif
-
-    let bufnr = bufnr('')
-    while 1
-        bnext
-        if bufnr('') == bufnr
-            return
-        endif
-        if !empty(GitGutterGetHunks())
-            normal! 1G
-            GitGutterNextHunk
-            GitGutterPreviewHunk
-            return
-        endif
-    endwhile
-endfunction
-
-function! PrevHunkAllBuffers()
-    let line = line('.')
-    GitGutterPrevHunk
-    GitGutterPreviewHunk
-    if line('.') != line
-        return
-    endif
-
-    let bufnr = bufnr('')
-    while 1
-        bprevious
-        if bufnr('') == bufnr
-            return
-        endif
-        if !empty(GitGutterGetHunks())
-            normal! G
-            GitGutterPrevHunk
-            GitGutterPreviewHunk
-            return
-        endif
-    endwhile
-endfunction
+nmap ]c <Plug>GitGutterNextHunk
+nmap [c <Plug>GitGutterPrevHunk
 
 " ## [vim-startify] {{{2
 let g:startify_list_order = [
@@ -507,5 +460,6 @@ hi StartifyPath    ctermfg=245 guifg=#8a8a8a
 hi StartifySlash   ctermfg=240 guifg=#585858
 hi StartifySpecial ctermfg=240 guifg=#585858
 
-" # Modeline {{{1
+" }}}
+
 " vim: set foldmethod=marker foldlevel=1 et sw=4 ts=8 tw=78 :
