@@ -16,7 +16,6 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-abolish'
-Plug 'ctrlpvim/ctrlp.vim'
 
 " Text Object {{{2
 Plug 'michaeljsmith/vim-indent-object'
@@ -116,7 +115,7 @@ autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType javascript setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType json setlocal expandtab shiftwidth=2 softtabstop=2
 
-" ## Ignore files, dirs. (See also nerdtree, ctrlp) {{{2
+" ## Ignore files, dirs. (See also nerdtree) {{{2
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 set wildignore+=*\\.git\\*
@@ -363,18 +362,6 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
-" ## [ctrlp] {{{2
-let g:ctrlp_max_files = 500
-let g:ctrlp_max_depth = 5
-"let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ 'node': 'node_modules',
-            \ }
-" nnoremap <Leader>bb :CtrlPBuffer<CR>
-" nnoremap <Leader>fr :CtrlPMRU<CR>
-" nnoremap <Leader>pf :CtrlPRoot<CR>
 
 " ## [vim-bufkill] {{{2
 nnoremap <Leader>bd :BD<CR>
