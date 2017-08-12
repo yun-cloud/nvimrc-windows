@@ -20,6 +20,7 @@ Plug 'tpope/vim-abolish'
 " Text Object {{{2
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-surround'
+Plug 'wellle/targets.vim'
 
 " Programming Language {{{2
 " Javascript {{{3
