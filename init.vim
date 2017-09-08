@@ -22,13 +22,6 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
 
-" Programming Language {{{2
-" Javascript {{{3
-Plug 'pangloss/vim-javascript'
-
-" Rust {{{3
-Plug 'rust-lang/rust.vim'
-
 " File Tree
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -64,6 +57,13 @@ Plug 'morhetz/gruvbox'
 " Highlihgting {{{2
 Plug 'sheerun/vim-polyglot'
 Plug 'kien/rainbow_parentheses.vim'
+
+" Programming Language {{{2
+" Javascript {{{3
+Plug 'pangloss/vim-javascript'
+
+" Rust {{{3
+Plug 'rust-lang/rust.vim'
 
 " Statusline {{{2
 Plug 'vim-airline/vim-airline'
@@ -108,6 +108,7 @@ let g:python3_host_prog = 'C:\Program Files (x86)\Python36-32\python3.exe'
 
 " ## Indentation {{{2
 set autoindent
+set smartindent
 set smarttab
 set expandtab shiftwidth=4 softtabstop=4 tabstop=4
 autocmd FileType make setlocal noexpandtab shiftwidth=8 tabstop=8
@@ -443,6 +444,7 @@ let g:startify_bookmarks = [
             \ {'c': '~/.config/nvim/init.vim'},
             \ {'b1': '~/OneDrive/Documents/Project/GoShare/back-end'},
             \ {'b2': '~/Documents/Project/NthuStage/back-end'},
+            \ {'nvim': '~/.config/nvim'},
             \ ]
 let g:startify_custom_header =
             \ startify#fortune#cowsay('═','║','╔','╗','╝','╚')
